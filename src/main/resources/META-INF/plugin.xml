@@ -1,16 +1,12 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.squadgazzz.rustsyntaxtoolsrustroverplugin</id>
-    <name>rust-syntax-tools-rustrover-plugin</name>
+    <name>Rust Async Highlighter</name>
     <vendor>squadgazzz</vendor>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.jetbrains.rust</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
-
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
-        <postStartupActivity implementation="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.startup.MyProjectActivity" />
+        <!-- Extensions will be added in subsequent tasks -->
     </extensions>
 </idea-plugin>
