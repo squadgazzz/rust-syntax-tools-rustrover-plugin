@@ -5,6 +5,7 @@
     <vendor>squadgazzz</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.jetbrains.rust</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
