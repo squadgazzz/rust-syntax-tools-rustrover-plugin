@@ -22,5 +22,8 @@
             implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncAnnotator"/>
         <colorSettingsPage
             implementation="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncColorSettingsPage"/>
+        <codeInsight.inlayHintsProvider
+            language="Rust"
+            implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncInlayHintsProvider"/>
     </extensions>
 </idea-plugin>
