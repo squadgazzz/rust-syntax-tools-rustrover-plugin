@@ -14,5 +14,13 @@
             instance="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.settings.AsyncHighlighterConfigurable"
             id="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.settings.AsyncHighlighterConfigurable"
             displayName="Rust Async Highlighter"/>
+        <codeInsight.lineMarkerProvider
+            language="Rust"
+            implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncLineMarkerProvider"/>
+        <annotator
+            language="Rust"
+            implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncAnnotator"/>
+        <colorSettingsPage
+            implementation="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncColorSettingsPage"/>
     </extensions>
 </idea-plugin>
