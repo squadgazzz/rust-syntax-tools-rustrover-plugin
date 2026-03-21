@@ -46,12 +46,12 @@ class AsyncInlayHintsProvider : InlayHintsProvider<NoSettings> {
     private class AsyncInlayHintsCollector(editor: Editor) : FactoryInlayHintsCollector(editor) {
 
         override fun collect(element: PsiElement, editor: Editor, sink: InlayHintsSink): Boolean {
-            val callType = AsyncCallDetector.detect(element) ?: return true
+            val detection = AsyncCallDetector.detect(element) ?: return true
 
             // Skip .await -- the keyword is already visible in source text
-            if (callType == AsyncCallType.AWAIT) return true
+            if (detection.type == AsyncCallType.AWAIT) return true
 
-            val label = when (callType) {
+            val label = when (detection.type) {
                 AsyncCallType.ASYNC_FN_CALL -> "async"
                 AsyncCallType.SPAWN_CALL -> "spawn"
                 AsyncCallType.AWAIT -> return true
@@ -60,7 +60,7 @@ class AsyncInlayHintsProvider : InlayHintsProvider<NoSettings> {
             val presentation: InlayPresentation = factory.smallText(label)
             @Suppress("DEPRECATION")
             sink.addInlineElement(
-                element.textRange.endOffset,
+                detection.anchor.textRange.endOffset,
                 relatesToPrecedingText = true,
                 presentation,
             )

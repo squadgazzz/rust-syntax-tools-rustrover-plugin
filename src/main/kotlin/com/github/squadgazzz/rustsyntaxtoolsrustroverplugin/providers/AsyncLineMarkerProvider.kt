@@ -22,13 +22,14 @@ class AsyncLineMarkerProvider : LineMarkerProvider {
         val seenLines = mutableSetOf<Int>()
 
         for (element in elements) {
-            val callType = AsyncCallDetector.detect(element) ?: continue
+            val detection = AsyncCallDetector.detect(element) ?: continue
+            val anchor = detection.anchor
 
             val document = element.containingFile?.viewProvider?.document ?: continue
-            val lineNumber = document.getLineNumber(element.textRange.startOffset)
+            val lineNumber = document.getLineNumber(anchor.textRange.startOffset)
             if (!seenLines.add(lineNumber)) continue
 
-            val tooltip = when (callType) {
+            val tooltip = when (detection.type) {
                 AsyncCallType.AWAIT -> "Await expression"
                 AsyncCallType.ASYNC_FN_CALL -> "Async function call"
                 AsyncCallType.SPAWN_CALL -> "Spawn call"
@@ -36,8 +37,8 @@ class AsyncLineMarkerProvider : LineMarkerProvider {
 
             result.add(
                 LineMarkerInfo(
-                    element,
-                    element.textRange,
+                    anchor,
+                    anchor.textRange,
                     PluginIcons.Hourglass,
                     { tooltip },
                     null,

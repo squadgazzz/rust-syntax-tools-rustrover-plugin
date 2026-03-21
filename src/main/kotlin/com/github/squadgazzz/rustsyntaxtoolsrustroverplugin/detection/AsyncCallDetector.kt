@@ -26,11 +26,24 @@ object AsyncCallDetector {
         SPAWN_CALL,
     }
 
-    fun detect(element: PsiElement): AsyncCallType? {
+    /**
+     * Result of detection, including an anchor element for positioning.
+     * For .await, the anchor is the fieldLookup child (the `.await` token),
+     * not the entire RsFieldLookupExpr which spans the whole receiver chain.
+     */
+    data class DetectionResult(
+        val type: AsyncCallType,
+        val anchor: PsiElement,
+    )
+
+    fun detect(element: PsiElement): DetectionResult? {
         return when {
-            isAwaitExpression(element) -> AsyncCallType.AWAIT
-            isSpawnCall(element) -> AsyncCallType.SPAWN_CALL
-            isAsyncFnCall(element) -> AsyncCallType.ASYNC_FN_CALL
+            isAwaitExpression(element) -> {
+                val anchor = (element as RsFieldLookupExpr).fieldLookup
+                DetectionResult(AsyncCallType.AWAIT, anchor)
+            }
+            isSpawnCall(element) -> DetectionResult(AsyncCallType.SPAWN_CALL, element)
+            isAsyncFnCall(element) -> DetectionResult(AsyncCallType.ASYNC_FN_CALL, element)
             else -> null
         }
     }
