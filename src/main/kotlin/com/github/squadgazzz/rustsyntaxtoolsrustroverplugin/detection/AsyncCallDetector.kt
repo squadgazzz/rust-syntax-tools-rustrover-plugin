@@ -42,8 +42,22 @@ object AsyncCallDetector {
                 val anchor = (element as RsFieldLookupExpr).fieldLookup
                 DetectionResult(AsyncCallType.AWAIT, anchor)
             }
-            isSpawnCall(element) -> DetectionResult(AsyncCallType.SPAWN_CALL, element)
-            isAsyncFnCall(element) -> DetectionResult(AsyncCallType.ASYNC_FN_CALL, element)
+            isSpawnCall(element) -> {
+                // Anchor on the path expression (e.g., `tokio::spawn`), not the whole call
+                val anchor = (element as RsCallExpr).expr ?: element
+                DetectionResult(AsyncCallType.SPAWN_CALL, anchor)
+            }
+            isAsyncFnCall(element) -> {
+                // For method calls like `.send()`, anchor on the methodCall child,
+                // not the entire RsMethodCallExpr which includes the receiver chain.
+                // For free function calls, anchor on the path expression.
+                val anchor = when (element) {
+                    is RsMethodCallExpr -> element.methodCall
+                    is RsCallExpr -> element.expr ?: element
+                    else -> element
+                }
+                DetectionResult(AsyncCallType.ASYNC_FN_CALL, anchor)
+            }
             else -> null
         }
     }

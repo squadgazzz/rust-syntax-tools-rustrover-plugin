@@ -6,6 +6,7 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.intellij.openapi.editor.markup.EffectType
 import com.intellij.openapi.editor.markup.TextAttributes
 import com.intellij.psi.PsiElement
 import java.awt.Color
@@ -14,19 +15,22 @@ import java.awt.Font
 class AsyncAnnotator : Annotator {
 
     companion object {
+        // Use ROUNDED_BOX effect (subtle border) instead of background color.
+        // This works well on both light and dark themes. Users can customize
+        // via Settings > Editor > Color Scheme > Rust Async Highlighter.
         val ASYNC_AWAIT_KEY = TextAttributesKey.createTextAttributesKey(
             "RUST_ASYNC_AWAIT",
-            TextAttributes(null, Color(252, 245, 225), null, null, Font.PLAIN),
+            TextAttributes(null, null, Color(232, 163, 23), EffectType.ROUNDED_BOX, Font.PLAIN),
         )
 
         val ASYNC_FN_CALL_KEY = TextAttributesKey.createTextAttributesKey(
             "RUST_ASYNC_FN_CALL",
-            TextAttributes(null, Color(252, 248, 235), null, null, Font.PLAIN),
+            TextAttributes(null, null, Color(100, 180, 100), EffectType.ROUNDED_BOX, Font.PLAIN),
         )
 
         val ASYNC_SPAWN_CALL_KEY = TextAttributesKey.createTextAttributesKey(
             "RUST_ASYNC_SPAWN_CALL",
-            TextAttributes(null, Color(252, 242, 215), null, null, Font.PLAIN),
+            TextAttributes(null, null, Color(180, 100, 100), EffectType.ROUNDED_BOX, Font.PLAIN),
         )
     }
 
