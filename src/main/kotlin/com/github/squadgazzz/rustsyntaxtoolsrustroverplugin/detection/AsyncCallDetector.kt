@@ -1,0 +1,82 @@
+package com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.detection
+
+import com.intellij.psi.PsiElement
+import org.rust.lang.core.psi.RsCallExpr
+import org.rust.lang.core.psi.RsFieldLookupExpr
+import org.rust.lang.core.psi.RsFunction
+import org.rust.lang.core.psi.RsMethodCallExpr
+import org.rust.lang.core.psi.RsPathExpr
+import org.rust.lang.core.psi.ext.isAsync
+import org.rust.lang.core.psi.ext.qualifiedName
+
+object AsyncCallDetector {
+
+    private val SPAWN_FUNCTIONS = setOf(
+        "tokio::spawn",
+        "tokio::spawn_blocking",
+        "tokio::task::spawn_local",
+        "async_std::task::spawn",
+        "async_std::task::spawn_local",
+        "async_std::task::spawn_blocking",
+    )
+
+    enum class AsyncCallType {
+        AWAIT,
+        ASYNC_FN_CALL,
+        SPAWN_CALL,
+    }
+
+    fun detect(element: PsiElement): AsyncCallType? {
+        return when {
+            isAwaitExpression(element) -> AsyncCallType.AWAIT
+            isSpawnCall(element) -> AsyncCallType.SPAWN_CALL
+            isAsyncFnCall(element) -> AsyncCallType.ASYNC_FN_CALL
+            else -> null
+        }
+    }
+
+    fun isAwaitExpression(element: PsiElement): Boolean {
+        // .await in Rust PSI is represented as RsFieldLookupExpr
+        // whose RsFieldLookup child has text "await"
+        if (element !is RsFieldLookupExpr) return false
+        return try {
+            element.fieldLookup.isAsync
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    fun isAsyncFnCall(element: PsiElement): Boolean {
+        return try {
+            when (element) {
+                is RsCallExpr -> isAsyncCallExpr(element)
+                is RsMethodCallExpr -> isAsyncMethodCallExpr(element)
+                else -> false
+            }
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    fun isSpawnCall(element: PsiElement): Boolean {
+        if (element !is RsCallExpr) return false
+        return try {
+            val pathExpr = element.expr as? RsPathExpr ?: return false
+            val resolved = pathExpr.path.reference?.resolve() as? RsFunction ?: return false
+            resolved.qualifiedName in SPAWN_FUNCTIONS
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    private fun isAsyncCallExpr(callExpr: RsCallExpr): Boolean {
+        val pathExpr = callExpr.expr as? RsPathExpr ?: return false
+        val resolved = pathExpr.path.reference?.resolve() as? RsFunction ?: return false
+        return resolved.isAsync
+    }
+
+    private fun isAsyncMethodCallExpr(methodCallExpr: RsMethodCallExpr): Boolean {
+        val resolved = methodCallExpr.methodCall.reference.resolve() as? RsFunction ?: return false
+        return resolved.isAsync
+    }
+}
