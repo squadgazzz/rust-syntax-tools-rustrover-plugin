@@ -7,6 +7,12 @@
     <depends>com.jetbrains.rust</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Extensions will be added in subsequent tasks -->
+        <applicationService
+            serviceImplementation="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.settings.AsyncHighlighterSettings"/>
+        <applicationConfigurable
+            parentId="tools"
+            instance="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.settings.AsyncHighlighterConfigurable"
+            id="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.settings.AsyncHighlighterConfigurable"
+            displayName="Rust Async Highlighter"/>
     </extensions>
 </idea-plugin>
