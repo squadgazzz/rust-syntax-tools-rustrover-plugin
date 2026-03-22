@@ -13,9 +13,11 @@ class AsyncHighlighterSettings : PersistentStateComponent<AsyncHighlighterSettin
 
     var gutterIconForAwait: Boolean = true
     var gutterIconForAsyncFn: Boolean = true
+    var gutterIconForAsyncBlock: Boolean = true
     var gutterIconForSpawn: Boolean = true
     var highlightAwaitExpressions: Boolean = true
     var highlightAsyncFnCalls: Boolean = true
+    var highlightAsyncBlocks: Boolean = true
     var highlightSpawnCalls: Boolean = true
     var showInlayHints: Boolean = true
 

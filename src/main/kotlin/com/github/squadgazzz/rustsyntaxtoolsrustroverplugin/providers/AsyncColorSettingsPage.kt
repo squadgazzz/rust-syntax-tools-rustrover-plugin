@@ -13,6 +13,7 @@ class AsyncColorSettingsPage : ColorSettingsPage {
     private val descriptors = arrayOf(
         AttributesDescriptor("Rust Async Highlighter//Await expression", AsyncAnnotator.ASYNC_AWAIT_KEY),
         AttributesDescriptor("Rust Async Highlighter//Async function call", AsyncAnnotator.ASYNC_FN_CALL_KEY),
+        AttributesDescriptor("Rust Async Highlighter//Async block", AsyncAnnotator.ASYNC_BLOCK_KEY),
         AttributesDescriptor("Rust Async Highlighter//Spawn call", AsyncAnnotator.ASYNC_SPAWN_CALL_KEY),
     )
 
@@ -30,13 +31,14 @@ class AsyncColorSettingsPage : ColorSettingsPage {
 
         async fn process() {
             let data = <async_fn>fetch_data</async_fn>("https://example.com").await;
-            <spawn_call>tokio::spawn</spawn_call>(async { handle(data) });
+            <spawn_call>tokio::spawn</spawn_call>(<async_block>async move</async_block> { handle(data) });
         }
     """.trimIndent()
 
     override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey> = mapOf(
         "await_expr" to AsyncAnnotator.ASYNC_AWAIT_KEY,
         "async_fn" to AsyncAnnotator.ASYNC_FN_CALL_KEY,
+        "async_block" to AsyncAnnotator.ASYNC_BLOCK_KEY,
         "spawn_call" to AsyncAnnotator.ASYNC_SPAWN_CALL_KEY,
     )
 }

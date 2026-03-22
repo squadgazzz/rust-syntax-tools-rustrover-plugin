@@ -32,6 +32,10 @@ class AsyncLineMarkerProvider : LineMarkerProvider {
                     if (!settings.gutterIconForAsyncFn) continue
                     "Async function call"
                 }
+                AsyncCallType.ASYNC_BLOCK -> {
+                    if (!settings.gutterIconForAsyncBlock) continue
+                    "Async block"
+                }
                 AsyncCallType.SPAWN_CALL -> {
                     if (!settings.gutterIconForSpawn) continue
                     "Spawn call"

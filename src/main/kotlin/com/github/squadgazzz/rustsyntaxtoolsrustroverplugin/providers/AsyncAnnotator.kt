@@ -28,6 +28,11 @@ class AsyncAnnotator : Annotator {
             TextAttributes(null, null, Color(100, 180, 100), EffectType.ROUNDED_BOX, Font.PLAIN),
         )
 
+        val ASYNC_BLOCK_KEY = TextAttributesKey.createTextAttributesKey(
+            "RUST_ASYNC_BLOCK",
+            TextAttributes(null, null, Color(100, 140, 200), EffectType.ROUNDED_BOX, Font.PLAIN),
+        )
+
         val ASYNC_SPAWN_CALL_KEY = TextAttributesKey.createTextAttributesKey(
             "RUST_ASYNC_SPAWN_CALL",
             TextAttributes(null, null, Color(180, 100, 100), EffectType.ROUNDED_BOX, Font.PLAIN),
@@ -46,6 +51,10 @@ class AsyncAnnotator : Annotator {
             AsyncCallDetector.AsyncCallType.ASYNC_FN_CALL -> {
                 if (!settings.highlightAsyncFnCalls) return
                 ASYNC_FN_CALL_KEY
+            }
+            AsyncCallDetector.AsyncCallType.ASYNC_BLOCK -> {
+                if (!settings.highlightAsyncBlocks) return
+                ASYNC_BLOCK_KEY
             }
             AsyncCallDetector.AsyncCallType.SPAWN_CALL -> {
                 if (!settings.highlightSpawnCalls) return

@@ -25,13 +25,14 @@ class AsyncInlayHintsProvider : InlayHintsProvider {
         override fun collectFromElement(element: PsiElement, sink: InlayTreeSink) {
             val detection = AsyncCallDetector.detect(element) ?: return
 
-            // Skip .await -- the keyword is already visible in source text
+            // Skip .await and async blocks -- already visible in source text
             if (detection.type == AsyncCallType.AWAIT) return
+            if (detection.type == AsyncCallType.ASYNC_BLOCK) return
 
             val label = when (detection.type) {
                 AsyncCallType.ASYNC_FN_CALL -> "async"
                 AsyncCallType.SPAWN_CALL -> "spawn"
-                AsyncCallType.AWAIT -> return
+                else -> return
             }
 
             val position = InlineInlayPosition(

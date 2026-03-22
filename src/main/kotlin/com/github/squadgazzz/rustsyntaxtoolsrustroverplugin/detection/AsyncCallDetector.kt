@@ -1,6 +1,7 @@
 package com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.detection
 
 import com.intellij.psi.PsiElement
+import org.rust.lang.core.psi.RsBlockExpr
 import org.rust.lang.core.psi.RsCallExpr
 import org.rust.lang.core.psi.RsFieldLookupExpr
 import org.rust.lang.core.psi.RsFunction
@@ -27,6 +28,7 @@ object AsyncCallDetector {
     enum class AsyncCallType {
         AWAIT,
         ASYNC_FN_CALL,
+        ASYNC_BLOCK,
         SPAWN_CALL,
     }
 
@@ -46,15 +48,15 @@ object AsyncCallDetector {
                 val anchor = (element as RsFieldLookupExpr).fieldLookup
                 DetectionResult(AsyncCallType.AWAIT, anchor)
             }
+            isAsyncBlock(element) -> {
+                // Anchor on the `async` keyword, not the entire block
+                DetectionResult(AsyncCallType.ASYNC_BLOCK, element)
+            }
             isSpawnCall(element) -> {
-                // Anchor on the path expression (e.g., `tokio::spawn`), not the whole call
                 val anchor = (element as RsCallExpr).expr ?: element
                 DetectionResult(AsyncCallType.SPAWN_CALL, anchor)
             }
             isAsyncFnCall(element) -> {
-                // For method calls like `.send()`, anchor on the methodCall child,
-                // not the entire RsMethodCallExpr which includes the receiver chain.
-                // For free function calls, anchor on the path expression.
                 val anchor = when (element) {
                     is RsMethodCallExpr -> element.methodCall
                     is RsCallExpr -> element.expr ?: element
@@ -72,6 +74,15 @@ object AsyncCallDetector {
         if (element !is RsFieldLookupExpr) return false
         return try {
             element.fieldLookup.isAsync
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    fun isAsyncBlock(element: PsiElement): Boolean {
+        if (element !is RsBlockExpr) return false
+        return try {
+            element.isAsync
         } catch (_: Exception) {
             false
         }

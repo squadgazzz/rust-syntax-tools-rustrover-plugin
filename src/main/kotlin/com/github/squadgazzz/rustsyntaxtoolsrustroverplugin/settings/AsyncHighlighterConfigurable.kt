@@ -19,21 +19,29 @@ class AsyncHighlighterConfigurable : BoundConfigurable("Rust Async Highlighter")
                     .bindSelected(settings::gutterIconForAsyncFn)
             }
             row {
+                checkBox("async / async move blocks")
+                    .bindSelected(settings::gutterIconForAsyncBlock)
+            }
+            row {
                 checkBox("Spawn calls")
                     .bindSelected(settings::gutterIconForSpawn)
             }
         }
         group("Inline Highlighting (border)") {
             row {
-                checkBox("Highlight .await expressions")
+                checkBox(".await expressions")
                     .bindSelected(settings::highlightAwaitExpressions)
             }
             row {
-                checkBox("Highlight async function calls")
+                checkBox("Async function calls")
                     .bindSelected(settings::highlightAsyncFnCalls)
             }
             row {
-                checkBox("Highlight spawn calls")
+                checkBox("async / async move blocks")
+                    .bindSelected(settings::highlightAsyncBlocks)
+            }
+            row {
+                checkBox("Spawn calls")
                     .bindSelected(settings::highlightSpawnCalls)
             }
         }
