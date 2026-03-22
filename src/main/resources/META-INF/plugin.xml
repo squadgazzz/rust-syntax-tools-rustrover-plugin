@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.github.squadgazzz.rustsyntaxtoolsrustroverplugin</id>
-    <name>Rust Async Highlighter</name>
+    <name>Rust Enhanced Syntax Highlighting</name>
     <vendor>squadgazzz</vendor>
 
     <depends>com.intellij.modules.platform</depends>
@@ -13,7 +13,7 @@
             parentId="tools"
             instance="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.settings.AsyncHighlighterConfigurable"
             id="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.settings.AsyncHighlighterConfigurable"
-            displayName="Rust Async Highlighter"/>
+            displayName="Rust Enhanced Syntax Highlighting"/>
         <codeInsight.lineMarkerProvider
             language="Rust"
             implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncLineMarkerProvider"/>

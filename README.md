@@ -18,7 +18,9 @@
 - [ ] Configure the [CODECOV_TOKEN](https://docs.codecov.com/docs/quick-start) secret for automated test coverage reports on PRs
 
 <!-- Plugin description -->
-Highlights async calls (.await expressions, async function calls, and spawn calls) in Rust code with gutter icons, inline highlighting, and inlay hints. Each visual mechanism can be independently toggled in Settings > Tools > Rust Async Highlighter.
+Enhances Rust syntax highlighting in RustRover with visual indicators for async calls
+(.await, async fn, spawn) and early return points (return, ?, unwrap, panic). Features
+gutter icons, inline border highlighting, and inlay hints — each independently configurable.
 <!-- Plugin description end -->
 
 ## Installation

@@ -19,7 +19,7 @@ class AsyncColorSettingsPage : ColorSettingsPage {
 
     override fun getAttributeDescriptors(): Array<AttributesDescriptor> = descriptors
     override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
-    override fun getDisplayName(): String = "Rust Async Highlighter"
+    override fun getDisplayName(): String = "Rust Enhanced Syntax Highlighting//Async"
     override fun getIcon(): Icon? = null
     override fun getHighlighter(): SyntaxHighlighter = PlainSyntaxHighlighter()
 

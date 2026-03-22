@@ -21,6 +21,21 @@ class AsyncHighlighterSettings : PersistentStateComponent<AsyncHighlighterSettin
     var highlightSpawnCalls: Boolean = true
     var showInlayHints: Boolean = true
 
+    // Early return gutter icons
+    var gutterIconForReturn: Boolean = true
+    var gutterIconForTryOperator: Boolean = true
+    var gutterIconForUnwrapExpect: Boolean = true
+    var gutterIconForPanicMacros: Boolean = true
+
+    // Early return inline highlighting
+    var highlightReturn: Boolean = true
+    var highlightTryOperator: Boolean = true
+    var highlightUnwrapExpect: Boolean = true
+    var highlightPanicMacros: Boolean = true
+
+    // Test code
+    var showEarlyReturnsInTests: Boolean = false
+
     override fun getState(): AsyncHighlighterSettings = this
 
     override fun loadState(state: AsyncHighlighterSettings) {
