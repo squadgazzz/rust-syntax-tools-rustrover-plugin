@@ -11,7 +11,9 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 @State(name = "AsyncHighlighterSettings", storages = [Storage("AsyncHighlighterSettings.xml")])
 class AsyncHighlighterSettings : PersistentStateComponent<AsyncHighlighterSettings> {
 
-    var showGutterIcons: Boolean = true
+    var gutterIconForAwait: Boolean = true
+    var gutterIconForAsyncFn: Boolean = true
+    var gutterIconForSpawn: Boolean = true
     var highlightAwaitExpressions: Boolean = true
     var highlightAsyncFnCalls: Boolean = true
     var highlightSpawnCalls: Boolean = true

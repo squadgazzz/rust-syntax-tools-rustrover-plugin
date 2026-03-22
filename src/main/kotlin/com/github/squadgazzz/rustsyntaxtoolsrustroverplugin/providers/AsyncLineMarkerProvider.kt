@@ -17,23 +17,31 @@ class AsyncLineMarkerProvider : LineMarkerProvider {
         elements: MutableList<out PsiElement>,
         result: MutableCollection<in LineMarkerInfo<*>>,
     ) {
-        if (!AsyncHighlighterSettings.getInstance().showGutterIcons) return
-
+        val settings = AsyncHighlighterSettings.getInstance()
         val seenLines = mutableSetOf<Int>()
 
         for (element in elements) {
             val detection = AsyncCallDetector.detect(element) ?: continue
-            val anchor = detection.anchor
 
+            val tooltip = when (detection.type) {
+                AsyncCallType.AWAIT -> {
+                    if (!settings.gutterIconForAwait) continue
+                    "Await expression"
+                }
+                AsyncCallType.ASYNC_FN_CALL -> {
+                    if (!settings.gutterIconForAsyncFn) continue
+                    "Async function call"
+                }
+                AsyncCallType.SPAWN_CALL -> {
+                    if (!settings.gutterIconForSpawn) continue
+                    "Spawn call"
+                }
+            }
+
+            val anchor = detection.anchor
             val document = element.containingFile?.viewProvider?.document ?: continue
             val lineNumber = document.getLineNumber(anchor.textRange.startOffset)
             if (!seenLines.add(lineNumber)) continue
-
-            val tooltip = when (detection.type) {
-                AsyncCallType.AWAIT -> "Await expression"
-                AsyncCallType.ASYNC_FN_CALL -> "Async function call"
-                AsyncCallType.SPAWN_CALL -> "Spawn call"
-            }
 
             result.add(
                 LineMarkerInfo(
