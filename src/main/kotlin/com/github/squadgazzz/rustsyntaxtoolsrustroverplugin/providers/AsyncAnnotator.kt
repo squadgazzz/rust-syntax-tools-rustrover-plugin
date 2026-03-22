@@ -35,14 +35,22 @@ class AsyncAnnotator : Annotator {
     }
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-        if (!AsyncHighlighterSettings.getInstance().showInlineHighlighting) return
-
+        val settings = AsyncHighlighterSettings.getInstance()
         val detection = AsyncCallDetector.detect(element) ?: return
 
         val key = when (detection.type) {
-            AsyncCallDetector.AsyncCallType.AWAIT -> ASYNC_AWAIT_KEY
-            AsyncCallDetector.AsyncCallType.ASYNC_FN_CALL -> ASYNC_FN_CALL_KEY
-            AsyncCallDetector.AsyncCallType.SPAWN_CALL -> ASYNC_SPAWN_CALL_KEY
+            AsyncCallDetector.AsyncCallType.AWAIT -> {
+                if (!settings.highlightAwaitExpressions) return
+                ASYNC_AWAIT_KEY
+            }
+            AsyncCallDetector.AsyncCallType.ASYNC_FN_CALL -> {
+                if (!settings.highlightAsyncFnCalls) return
+                ASYNC_FN_CALL_KEY
+            }
+            AsyncCallDetector.AsyncCallType.SPAWN_CALL -> {
+                if (!settings.highlightSpawnCalls) return
+                ASYNC_SPAWN_CALL_KEY
+            }
         }
 
         holder.newSilentAnnotation(HighlightSeverity.INFORMATION)

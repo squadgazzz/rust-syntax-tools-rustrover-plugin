@@ -12,7 +12,9 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 class AsyncHighlighterSettings : PersistentStateComponent<AsyncHighlighterSettings> {
 
     var showGutterIcons: Boolean = true
-    var showInlineHighlighting: Boolean = true
+    var highlightAwaitExpressions: Boolean = true
+    var highlightAsyncFnCalls: Boolean = true
+    var highlightSpawnCalls: Boolean = true
     var showInlayHints: Boolean = true
 
     override fun getState(): AsyncHighlighterSettings = this

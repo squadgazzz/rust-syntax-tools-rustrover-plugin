@@ -9,15 +9,27 @@ class AsyncHighlighterConfigurable : BoundConfigurable("Rust Async Highlighter")
 
     override fun createPanel(): DialogPanel = panel {
         val settings = AsyncHighlighterSettings.getInstance()
-        group("Async Call Visibility") {
+        group("Gutter Icons") {
             row {
-                checkBox("Show gutter icons (hourglass) for async calls")
+                checkBox("Show hourglass icons for async calls")
                     .bindSelected(settings::showGutterIcons)
             }
+        }
+        group("Inline Highlighting (border)") {
             row {
-                checkBox("Show inline highlighting for async calls")
-                    .bindSelected(settings::showInlineHighlighting)
+                checkBox("Highlight .await expressions")
+                    .bindSelected(settings::highlightAwaitExpressions)
             }
+            row {
+                checkBox("Highlight async function calls")
+                    .bindSelected(settings::highlightAsyncFnCalls)
+            }
+            row {
+                checkBox("Highlight spawn calls")
+                    .bindSelected(settings::highlightSpawnCalls)
+            }
+        }
+        group("Inlay Hints") {
             row {
                 checkBox("Show inlay hints for async calls")
                     .bindSelected(settings::showInlayHints)
