@@ -22,6 +22,14 @@
             implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncAnnotator"/>
         <colorSettingsPage
             implementation="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncColorSettingsPage"/>
+        <codeInsight.lineMarkerProvider
+            language="Rust"
+            implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.EarlyReturnLineMarkerProvider"/>
+        <annotator
+            language="Rust"
+            implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.EarlyReturnAnnotator"/>
+        <colorSettingsPage
+            implementation="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.EarlyReturnColorSettingsPage"/>
         <codeInsight.declarativeInlayProvider
             language="Rust"
             implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncInlayHintsProvider"
