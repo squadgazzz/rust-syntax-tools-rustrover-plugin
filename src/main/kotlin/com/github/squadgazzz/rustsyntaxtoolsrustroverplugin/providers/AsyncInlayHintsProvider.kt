@@ -3,69 +3,50 @@ package com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers
 import com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.detection.AsyncCallDetector
 import com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.detection.AsyncCallDetector.AsyncCallType
 import com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.settings.AsyncHighlighterSettings
-import com.intellij.codeInsight.hints.*
-import com.intellij.codeInsight.hints.presentation.InlayPresentation
+import com.intellij.codeInsight.hints.declarative.HintFormat
+import com.intellij.codeInsight.hints.declarative.InlayHintsCollector
+import com.intellij.codeInsight.hints.declarative.InlayHintsProvider
+import com.intellij.codeInsight.hints.declarative.InlayTreeSink
+import com.intellij.codeInsight.hints.declarative.InlineInlayPosition
+import com.intellij.codeInsight.hints.declarative.SharedBypassCollector
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 
-@Suppress("UnstableApiUsage")
-class AsyncInlayHintsProvider : InlayHintsProvider<NoSettings> {
+class AsyncInlayHintsProvider : InlayHintsProvider {
 
-    override val key: SettingsKey<NoSettings> =
-        SettingsKey("rust.async.highlighter.inlay")
-
-    override val name: String = "Rust Async Highlighter"
-
-    override val previewText: String = """
-        async fn fetch_data() -> String {
-            let result = client.get(url).await;
-            tokio::spawn(async { process(result) });
-            result
-        }
-    """.trimIndent()
-
-    override fun createSettings(): NoSettings = NoSettings()
-
-    override fun createConfigurable(settings: NoSettings): ImmediateConfigurable =
-        object : ImmediateConfigurable {
-            override fun createComponent(listener: ChangeListener) =
-                javax.swing.JPanel()
-        }
-
-    override fun getCollectorFor(
-        file: PsiFile,
-        editor: Editor,
-        settings: NoSettings,
-        sink: InlayHintsSink,
-    ): InlayHintsCollector? {
+    override fun createCollector(file: PsiFile, editor: Editor): InlayHintsCollector? {
         if (!AsyncHighlighterSettings.getInstance().showInlayHints) return null
-        return AsyncInlayHintsCollector(editor)
+        return Collector()
     }
 
-    private class AsyncInlayHintsCollector(editor: Editor) : FactoryInlayHintsCollector(editor) {
+    private class Collector : SharedBypassCollector {
 
-        override fun collect(element: PsiElement, editor: Editor, sink: InlayHintsSink): Boolean {
-            val detection = AsyncCallDetector.detect(element) ?: return true
+        override fun collectFromElement(element: PsiElement, sink: InlayTreeSink) {
+            val detection = AsyncCallDetector.detect(element) ?: return
 
             // Skip .await -- the keyword is already visible in source text
-            if (detection.type == AsyncCallType.AWAIT) return true
+            if (detection.type == AsyncCallType.AWAIT) return
 
             val label = when (detection.type) {
                 AsyncCallType.ASYNC_FN_CALL -> "async"
                 AsyncCallType.SPAWN_CALL -> "spawn"
-                AsyncCallType.AWAIT -> return true
+                AsyncCallType.AWAIT -> return
             }
 
-            val presentation: InlayPresentation = factory.smallText(label)
-            @Suppress("DEPRECATION")
-            sink.addInlineElement(
+            val position = InlineInlayPosition(
                 detection.anchor.textRange.endOffset,
-                relatesToPrecedingText = true,
-                presentation,
+                relatedToPrevious = true,
             )
 
-            return true
+            sink.addPresentation(
+                position = position,
+                payloads = emptyList(),
+                tooltip = label,
+                hintFormat = HintFormat.default,
+            ) {
+                text(label)
+            }
         }
     }
 }

@@ -22,8 +22,13 @@
             implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncAnnotator"/>
         <colorSettingsPage
             implementation="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncColorSettingsPage"/>
-        <codeInsight.inlayHintsProvider
+        <codeInsight.declarativeInlayProvider
             language="Rust"
-            implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncInlayHintsProvider"/>
+            implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncInlayHintsProvider"
+            isEnabledByDefault="true"
+            group="OTHER_GROUP"
+            providerId="rust.async.highlighter.inlay"
+            bundle="messages.RustAsyncHighlighterBundle"
+            nameKey="rust.async.inlay.provider.name"/>
     </extensions>
 </idea-plugin>
