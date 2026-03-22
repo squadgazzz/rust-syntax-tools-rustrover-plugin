@@ -11,9 +11,13 @@ import org.rust.lang.core.psi.ext.qualifiedName
 
 object AsyncCallDetector {
 
+    // Include both re-export paths (tokio::spawn) and actual definition paths
+    // (tokio::task::spawn) since PSI resolution follows to the real definition.
     private val SPAWN_FUNCTIONS = setOf(
         "tokio::spawn",
         "tokio::spawn_blocking",
+        "tokio::task::spawn",
+        "tokio::task::spawn_blocking",
         "tokio::task::spawn_local",
         "async_std::task::spawn",
         "async_std::task::spawn_local",
