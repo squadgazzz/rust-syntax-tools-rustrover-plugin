@@ -13,6 +13,14 @@ class AsyncLineMarkerProvider : LineMarkerProvider {
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? = null
 
+    private fun findLeaf(element: PsiElement): PsiElement {
+        var current = element
+        while (current.firstChild != null) {
+            current = current.firstChild
+        }
+        return current
+    }
+
     override fun collectSlowLineMarkers(
         elements: MutableList<out PsiElement>,
         result: MutableCollection<in LineMarkerInfo<*>>,
@@ -47,10 +55,11 @@ class AsyncLineMarkerProvider : LineMarkerProvider {
             val lineNumber = document.getLineNumber(anchor.textRange.startOffset)
             if (!seenLines.add(lineNumber)) continue
 
+            val leaf = findLeaf(anchor)
             result.add(
                 LineMarkerInfo(
-                    anchor,
-                    anchor.textRange,
+                    leaf,
+                    leaf.textRange,
                     PluginIcons.Hourglass,
                     { tooltip },
                     null,

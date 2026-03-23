@@ -14,6 +14,15 @@ class EarlyReturnLineMarkerProvider : LineMarkerProvider {
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? = null
 
+    /** LineMarkerInfo requires a leaf PsiElement. Find the first leaf descendant. */
+    private fun findLeaf(element: PsiElement): PsiElement {
+        var current = element
+        while (current.firstChild != null) {
+            current = current.firstChild
+        }
+        return current
+    }
+
     override fun collectSlowLineMarkers(
         elements: MutableList<out PsiElement>,
         result: MutableCollection<in LineMarkerInfo<*>>,
@@ -50,10 +59,11 @@ class EarlyReturnLineMarkerProvider : LineMarkerProvider {
             val lineNumber = document.getLineNumber(anchor.textRange.startOffset)
             if (!seenLines.add(lineNumber)) continue
 
+            val leaf = findLeaf(anchor)
             result.add(
                 LineMarkerInfo(
-                    anchor,
-                    anchor.textRange,
+                    leaf,
+                    leaf.textRange,
                     PluginIcons.ReturnArrow,
                     { tooltip },
                     null,
