@@ -2,6 +2,8 @@
 
 ![Build](https://github.com/squadgazzz/rust-syntax-tools-rustrover-plugin/workflows/Build/badge.svg)
 
+<img width="641" height="527" alt="Screenshot 2026-03-24 at 2 27 03 PM" src="https://github.com/user-attachments/assets/46bec479-a46c-42bf-a12a-00a17ff45147" />
+
 <!-- Plugin description -->
 Enhances Rust syntax highlighting in RustRover with visual indicators for async calls
 (.await, async fn, spawn) and early return points (return, ?, unwrap, panic). Features
