@@ -107,9 +107,9 @@ jobs:
         with:
           cache-read-only: true
 
-      # Run tests (exclude verifyPlugin — RustRover SDK missing Core plugin)
+      # Run tests
       - name: Run Tests
-        run: ./gradlew check -x verifyPlugin
+        run: ./gradlew check
 
       # Collect Tests Result of failed tests
       - name: Collect Tests Result
@@ -196,10 +196,8 @@ jobs:
           cache-read-only: true
 
       # Run Verify Plugin task and IntelliJ Plugin Verifier tool
-      # Disabled: RustRover SDK missing Core plugin (com.intellij), causes verifier to crash
-      # Re-enable when JetBrains fixes the RustRover SDK layout
       - name: Run Plugin Verification tasks
-        run: echo "Plugin verification skipped — RustRover SDK incompatible with verifier"
+        run: ./gradlew verifyPlugin
 
       # Collect Plugin Verifier Result
       - name: Collect Plugin Verifier Result

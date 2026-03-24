@@ -1,6 +1,8 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.intellij.platform.gradle.models.ProductRelease
 
 plugins {
     id("java") // Java support
@@ -102,13 +104,17 @@ intellijPlatform {
         channels = providers.gradleProperty("pluginVersion").map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
     }
 
-    // Plugin verification disabled: RustRover SDK is missing the Core plugin (com.intellij)
-    // which causes the verifier to crash. Re-enable when JetBrains fixes the RustRover SDK layout.
-    // pluginVerification {
-    //     ides {
-    //         recommended()
-    //     }
-    // }
+    // RustRover SDK is missing the Core plugin (com.intellij) which crashes the verifier.
+    // Use select{} with only the latest RustRover release channel as a workaround.
+    // Track: https://github.com/JetBrains/intellij-platform-gradle-plugin/issues/1850
+    pluginVerification {
+        ides {
+            select {
+                types = listOf(IntelliJPlatformType.RustRover)
+                channels = listOf(ProductRelease.Channel.RELEASE)
+            }
+        }
+    }
 }
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
