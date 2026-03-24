@@ -102,11 +102,13 @@ intellijPlatform {
         channels = providers.gradleProperty("pluginVersion").map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
     }
 
-    pluginVerification {
-        ides {
-            recommended()
-        }
-    }
+    // Plugin verification disabled: RustRover SDK is missing the Core plugin (com.intellij)
+    // which causes the verifier to crash. Re-enable when JetBrains fixes the RustRover SDK layout.
+    // pluginVerification {
+    //     ides {
+    //         recommended()
+    //     }
+    // }
 }
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin

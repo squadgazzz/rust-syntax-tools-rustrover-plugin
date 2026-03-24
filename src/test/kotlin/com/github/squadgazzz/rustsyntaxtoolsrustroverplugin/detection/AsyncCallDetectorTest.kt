@@ -16,7 +16,7 @@ class AsyncCallDetectorTest : BasePlatformTestCase() {
         val results = mutableListOf<PsiElement>()
         file.accept(object : PsiRecursiveElementVisitor() {
             override fun visitElement(element: PsiElement) {
-                if (AsyncCallDetector.detect(element) == type) {
+                if (AsyncCallDetector.detect(element)?.type == type) {
                     results.add(element)
                 }
                 super.visitElement(element)
@@ -46,7 +46,7 @@ class AsyncCallDetectorTest : BasePlatformTestCase() {
         file.accept(object : PsiRecursiveElementVisitor() {
             override fun visitElement(element: PsiElement) {
                 val detection = AsyncCallDetector.detect(element)
-                if (detection == AsyncCallDetector.AsyncCallType.ASYNC_FN_CALL
+                if (detection?.type == AsyncCallDetector.AsyncCallType.ASYNC_FN_CALL
                     && element.text.contains("sync_fn")
                 ) {
                     falsePositives.add(element)
