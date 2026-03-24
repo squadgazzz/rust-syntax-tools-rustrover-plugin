@@ -49,6 +49,9 @@ dependencies {
 
         testFramework(TestFrameworkType.Platform)
 
+        // Load the Rust plugin in the test sandbox so .rs files produce Rust PSI
+        testBundledPlugins("com.jetbrains.rust")
+
         pluginVerifier()
     }
 }
@@ -143,12 +146,6 @@ tasks {
         dependsOn(patchChangelog)
     }
 
-    test {
-        // Tests require Rust PSI which isn't available in BasePlatformTestCase.
-        // Don't fail the build when no tests are present.
-        jvmArgs("-Djunit.jupiter.execution.parallel.enabled=false")
-        failOnNoDiscoveredTests = false
-    }
 }
 
 intellijPlatformTesting {
