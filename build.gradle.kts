@@ -104,14 +104,15 @@ intellijPlatform {
         channels = providers.gradleProperty("pluginVersion").map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
     }
 
-    // RustRover SDK is missing the Core plugin (com.intellij) which crashes the verifier.
-    // Use select{} with only the latest RustRover release channel as a workaround.
+    // RustRover 2025.3 (build 253) SDK is missing the Core plugin (com.intellij) which crashes
+    // the verifier. Restrict to build 261+ to avoid the broken SDK version.
     // Track: https://github.com/JetBrains/intellij-platform-gradle-plugin/issues/1850
     pluginVerification {
         ides {
             select {
                 types = listOf(IntelliJPlatformType.RustRover)
                 channels = listOf(ProductRelease.Channel.RELEASE)
+                sinceBuild = "261"
             }
         }
     }
