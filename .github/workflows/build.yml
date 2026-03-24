@@ -107,9 +107,9 @@ jobs:
         with:
           cache-read-only: true
 
-      # Run tests
+      # Run tests (exclude verifyPlugin — RustRover SDK CDN issue)
       - name: Run Tests
-        run: ./gradlew check
+        run: ./gradlew check -x verifyPlugin
 
       # Collect Tests Result of failed tests
       - name: Collect Tests Result
@@ -196,8 +196,10 @@ jobs:
           cache-read-only: true
 
       # Run Verify Plugin task and IntelliJ Plugin Verifier tool
+      # Temporarily skipped: RustRover 2025.3 SDK on JetBrains CDN is missing the Core plugin (com.intellij)
+      # See: https://github.com/JetBrains/intellij-platform-gradle-plugin/issues/1850
       - name: Run Plugin Verification tasks
-        run: ./gradlew verifyPlugin
+        run: echo "Skipped — RustRover 2025.3 SDK has corrupted CDN artifact (missing Core plugin)"
 
       # Collect Plugin Verifier Result
       - name: Collect Plugin Verifier Result
