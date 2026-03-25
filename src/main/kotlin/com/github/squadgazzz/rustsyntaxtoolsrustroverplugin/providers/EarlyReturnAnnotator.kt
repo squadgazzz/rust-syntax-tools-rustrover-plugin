@@ -7,34 +7,16 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.colors.TextAttributesKey
-import com.intellij.openapi.editor.markup.EffectType
-import com.intellij.openapi.editor.markup.TextAttributes
 import com.intellij.psi.PsiElement
-import java.awt.Color
-import java.awt.Font
 
 class EarlyReturnAnnotator : Annotator {
 
     companion object {
-        val RETURN_KEY = TextAttributesKey.createTextAttributesKey(
-            "RUST_EARLY_RETURN",
-            TextAttributes(null, null, Color(220, 160, 50), EffectType.ROUNDED_BOX, Font.PLAIN),
-        )
-
-        val TRY_OPERATOR_KEY = TextAttributesKey.createTextAttributesKey(
-            "RUST_TRY_OPERATOR",
-            TextAttributes(null, null, Color(220, 160, 50), EffectType.ROUNDED_BOX, Font.PLAIN),
-        )
-
-        val UNWRAP_EXPECT_KEY = TextAttributesKey.createTextAttributesKey(
-            "RUST_UNWRAP_EXPECT",
-            TextAttributes(null, null, Color(200, 80, 80), EffectType.ROUNDED_BOX, Font.PLAIN),
-        )
-
-        val PANIC_MACRO_KEY = TextAttributesKey.createTextAttributesKey(
-            "RUST_PANIC_MACRO",
-            TextAttributes(null, null, Color(200, 80, 80), EffectType.ROUNDED_BOX, Font.PLAIN),
-        )
+        // Default colors are provided via bundled color scheme XML files.
+        val RETURN_KEY = TextAttributesKey.createTextAttributesKey("RUST_EARLY_RETURN")
+        val TRY_OPERATOR_KEY = TextAttributesKey.createTextAttributesKey("RUST_TRY_OPERATOR")
+        val UNWRAP_EXPECT_KEY = TextAttributesKey.createTextAttributesKey("RUST_UNWRAP_EXPECT")
+        val PANIC_MACRO_KEY = TextAttributesKey.createTextAttributesKey("RUST_PANIC_MACRO")
     }
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {

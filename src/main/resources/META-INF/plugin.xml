@@ -30,6 +30,7 @@
             implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.EarlyReturnAnnotator"/>
         <colorSettingsPage
             implementation="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.EarlyReturnColorSettingsPage"/>
+        <bundledColorScheme path="/colorSchemes/RustEnhancedSyntaxHighlighting"/>
         <codeInsight.declarativeInlayProvider
             language="Rust"
             implementationClass="com.github.squadgazzz.rustsyntaxtoolsrustroverplugin.providers.AsyncInlayHintsProvider"

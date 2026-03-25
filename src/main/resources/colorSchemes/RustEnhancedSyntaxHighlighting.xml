@@ -1,0 +1,55 @@
+<scheme name="Rust Enhanced Syntax Highlighting" version="142" parent_scheme="Default">
+    <attributes>
+        <!-- Async highlighting: ROUNDED_BOX borders -->
+        <option name="RUST_ASYNC_AWAIT">
+            <value>
+                <option name="EFFECT_COLOR" value="e8a317"/>
+                <option name="EFFECT_TYPE" value="4"/>
+            </value>
+        </option>
+        <option name="RUST_ASYNC_FN_CALL">
+            <value>
+                <option name="EFFECT_COLOR" value="64b464"/>
+                <option name="EFFECT_TYPE" value="4"/>
+            </value>
+        </option>
+        <option name="RUST_ASYNC_BLOCK">
+            <value>
+                <option name="EFFECT_COLOR" value="648cc8"/>
+                <option name="EFFECT_TYPE" value="4"/>
+            </value>
+        </option>
+        <option name="RUST_ASYNC_SPAWN_CALL">
+            <value>
+                <option name="EFFECT_COLOR" value="b46464"/>
+                <option name="EFFECT_TYPE" value="4"/>
+            </value>
+        </option>
+
+        <!-- Early return highlighting: ROUNDED_BOX borders -->
+        <option name="RUST_EARLY_RETURN">
+            <value>
+                <option name="EFFECT_COLOR" value="dca032"/>
+                <option name="EFFECT_TYPE" value="4"/>
+            </value>
+        </option>
+        <option name="RUST_TRY_OPERATOR">
+            <value>
+                <option name="EFFECT_COLOR" value="dca032"/>
+                <option name="EFFECT_TYPE" value="4"/>
+            </value>
+        </option>
+        <option name="RUST_UNWRAP_EXPECT">
+            <value>
+                <option name="EFFECT_COLOR" value="c85050"/>
+                <option name="EFFECT_TYPE" value="4"/>
+            </value>
+        </option>
+        <option name="RUST_PANIC_MACRO">
+            <value>
+                <option name="EFFECT_COLOR" value="c85050"/>
+                <option name="EFFECT_TYPE" value="4"/>
+            </value>
+        </option>
+    </attributes>
+</scheme>
